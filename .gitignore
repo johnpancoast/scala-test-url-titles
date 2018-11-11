@@ -1,6 +1,8 @@
 logs
 target
 /.idea
+/*.iml
+/.gradle
 /.idea_modules
 /.classpath
 /.project
