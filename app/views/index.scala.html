@@ -1,5 +1,29 @@
 @()
 
-@main("Welcome to Play") {
-  <h1>Welcome to Play!</h1>
+@main("Scala Test - URL Titles") {
+    <div class="container text-center">
+        <form class="form form-group">
+
+            <div class="row">
+                <div class="col">
+                    <h1 class="h3 mb-2 font-weight-normal">Get URL Title</h1>
+                    <p>Submit a URL and its page title will be displayed.</p>
+                    <label for="url" class="sr-only">Email address</label>
+                    <input type="text" id="url" class="form-control" placeholder="URL" required autofocus>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-4 mt-3">
+                    <button class="btn btn-md btn-primary mt-3" type="submit">Get Title</button>
+                </div>
+
+                <div class="col-8">
+                    <div class="box h-100 d-flex justify-content-center flex-column mt-4 text-left">
+                        <p id="url-title">{{ urlTitle }}</p>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
 }
