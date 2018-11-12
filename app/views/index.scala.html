@@ -1,27 +1,21 @@
 @()
 
 @main("Scala Test - URL Titles") {
-    <div class="container text-center">
-        <form class="form form-group">
-
+    <div id="app" class="container text-center">
+        <form v-on:submit.prevent class="form form-group">
             <div class="row">
-                <div class="col">
-                    <h1 class="h3 mb-2 font-weight-normal">Get URL Title</h1>
-                    <p>Submit a URL and its page title will be displayed.</p>
-                    <label for="url" class="sr-only">Email address</label>
-                    <input type="text" id="url" class="form-control" placeholder="URL" required autofocus>
-                </div>
+                <p>Submit a URL to display its page title</p>
+                <label for="url" class="sr-only">Email address</label>
+                <input v-model="url" ref="url" type="url" class="form-control" placeholder="URL" required autofocus>
             </div>
 
-            <div class="row">
-                <div class="col-4 mt-3">
-                    <button class="btn btn-md btn-primary mt-3" type="submit">Get Title</button>
+            <div class="row mt-3">
+                <div class="app-button-container col-3 align-top">
+                    <button v-on:click="updateUrlTitle" class="btn btn-md btn-primary" type="submit">Get Title</button>
+                    <button v-on:click="initUrl" class="btn btn-sm btn-secondary mt-2" type="submit">Clear</button>
                 </div>
-
-                <div class="col-8">
-                    <div class="box h-100 d-flex justify-content-center flex-column mt-4 text-left">
-                        <p id="url-title">{{ urlTitle }}</p>
-                    </div>
+                <div class="col-9">
+                    <p v-bind:class="getUrlTitleStateClasses" class="text-left">{{ urlTitle }}</p>
                 </div>
             </div>
         </form>
