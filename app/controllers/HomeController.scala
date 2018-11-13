@@ -1,8 +1,10 @@
 package controllers
 
-import javax.inject._
 import play.api._
 import play.api.mvc._
+import javax.inject._
+import java.net.{MalformedURLException, SocketTimeoutException}
+import org.jsoup.{HttpStatusException, UnsupportedMimeTypeException}
 import src.URLInfo
 import scala.util.{Try, Success, Failure}
 
@@ -34,11 +36,24 @@ class HomeController @Inject()(cc: ControllerComponents) extends AbstractControl
   def urlTitle(url: String) = Action { implicit request: Request[AnyContent] =>
     val titleTry = new URLInfo(url).getTitle()
 
-    // TODO Add better checks on the exception to return proper HTTP response/code.
     // This blanket covering of all failures works for this test's simple purposes though.
     titleTry match {
       case Success(title) => Ok(title)
-      case Failure(exception) => InternalServerError("Internal Server Error")
+      case Failure(exception) => {
+        if (exception.isInstanceOf[MalformedURLException]) {
+          BadRequest("Malformed URL")
+        } else if (exception.isInstanceOf[HttpStatusException]) {
+          // just pass on the status code to Play's handling
+          Results.Status(exception.asInstanceOf[HttpStatusException].getStatusCode())
+        } else if (exception.isInstanceOf[SocketTimeoutException]) {
+          RequestTimeout("Request timed out")
+        } else if (exception.isInstanceOf[UnsupportedMimeTypeException]) {
+          // Note that this is from *our* request so its not appropriate to give a 4** to the user and should instead just be considered a 500 since it's our request that failed and the end-user cannot enter mime type (rename it media type already!)
+          InternalServerError("Internal server error")
+        } else {
+          InternalServerError("Internal server error")
+        }
+      }
     }
   }
 }
