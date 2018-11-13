@@ -84,15 +84,15 @@ var app = new Vue({
          * @param event The event that spawned the call to this method
          */
         updateUrlTitle: function (event) {
-            this.urlTitleState = urlTitleStateUpdating;
-            this.urlTitle = 'Searching...';
-
             // Do nothing if our url field isn't valid.
             // Let layout handle the display errors since this method is only concerned with sending a valid URL to
             // endpoint.
             if (!this.isUrlValid()) {
                 return;
             }
+
+            this.urlTitleState = urlTitleStateUpdating;
+            this.urlTitle = 'Searching...';
 
             axios
                 .get('/url-title', {
