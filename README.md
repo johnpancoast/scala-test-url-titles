@@ -1,7 +1,8 @@
 
 # A Test of My Scala Skills
 
-A test of my scala skills; a project to get URL titles.
+A test of my scala skills for an interview test; a simple project to get site
+titles by URL.
 
 ## Test Details
 
